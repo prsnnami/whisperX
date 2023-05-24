@@ -14,7 +14,7 @@ from .vad import load_vad_model, merge_chunks
 from .types import TranscriptionResult, SingleSegment
 
 def load_model(whisper_arch, device, device_index=0, compute_type="float16", asr_options=None, language=None,
-               vad_options=None, model=None, task="transcribe"):
+               vad_options=None, model=None, task="transcribe", download_path=None):
     '''Load a Whisper model for inference.
     Args:
         whisper_arch: str - The name of the Whisper model to load.
@@ -29,7 +29,7 @@ def load_model(whisper_arch, device, device_index=0, compute_type="float16", asr
     if whisper_arch.endswith(".en"):
         language = "en"
 
-    model = WhisperModel(whisper_arch, device=device, device_index=device_index, compute_type=compute_type)
+    model = WhisperModel(whisper_arch, device=device, device_index=device_index, compute_type=compute_type, download_path=download_path)
     if language is not None:
         tokenizer = faster_whisper.tokenizer.Tokenizer(model.hf_tokenizer, model.model.is_multilingual, task=task, language=language)
     else:
